@@ -1,21 +1,45 @@
 package domain;
 
+import java.io.Serializable;
 import java.time.LocalDate;
 import java.util.Objects;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 import enums.Prioridade;
 import enums.Status;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 
-public class Chamado {
+@Entity
+public class Chamado implements Serializable {
+	private static final long serialVersionUID = 1L;
 	
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
+	
+	@JsonFormat(pattern = "dd/MM/YYYY")
 	private LocalDate dataAbertura = LocalDate.now();
+	
+	@JsonFormat(pattern = "dd/MM/YYYY")
 	private LocalDate datafechamento;
+	
 	private Prioridade prioridade;
 	private Status status;
 	private String titulo;
 	private String observacoes;
+	
+	@ManyToOne
+	@JoinColumn(name = "tecnico_id")
 	private Tecnico tecnico;
+	
+	@ManyToOne
+	@JoinColumn(name = "tecnico_id")
 	private Cliente cliente;
 	public Chamado() {
 		super();
